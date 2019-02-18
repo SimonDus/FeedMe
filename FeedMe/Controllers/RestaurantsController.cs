@@ -53,7 +53,7 @@ namespace FeedMe.Controllers
             return null;
         }
 
-        // GET: getallrestaurants
+        // GET: get all restaurants
         [Route("api/restaurants/getrestaurants")]
         public List<RestaurantsObj> GetRestaurants()
         {
@@ -143,7 +143,7 @@ namespace FeedMe.Controllers
             return restoList;
         }
 
-        // GET: api/Restaurants/5
+        // GET: get restaurants by name
         [ResponseType(typeof(RestaurantsObj))]
         [Route("api/restaurants/getrestaurantsbyname/{name}")]
         public IHttpActionResult GetRestaurantsByName(string name)
@@ -156,6 +156,22 @@ namespace FeedMe.Controllers
 
             return Ok(restaurantsObj);
         }
+
+        // GET: get restaurants by cuisine type
+        //[ResponseType(typeof(RestaurantsObj))]
+        //[Route("api/restaurants/getrestaurantsbyname/{name}")]
+        //public IHttpActionResult GetRestaurantsByName(string name)
+        //{
+        //    RestaurantsObj restaurantsObj = db.Restaurants.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault<RestaurantsObj>();
+        //    if (restaurantsObj == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(restaurantsObj);
+        //}
+
+
 
         // PUT: api/Restaurants/5
         [ResponseType(typeof(void))]
