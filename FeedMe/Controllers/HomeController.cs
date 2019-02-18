@@ -14,5 +14,12 @@ namespace FeedMe.Controllers
 
             return View();
         }
+
+        public ActionResult indexx()
+        {
+            ViewBag.Title = "Home Page";
+
+            return View();
+        }
     }
 }
