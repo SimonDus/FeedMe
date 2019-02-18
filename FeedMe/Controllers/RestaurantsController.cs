@@ -16,9 +16,46 @@ namespace FeedMe.Controllers
     {
         private FeedMeContext db = new FeedMeContext();
 
+        [Route("api/remplirdb")]
+        public HttpResponseMessage remplirDbTest()
+        {
+            var test = new RestaurantsObj
+            {
+                Name = "Le rabassier",
+                Adress = "23 rue de rollebeek",
+                IdCuisine = -1,
+                Phone = "0497756905",
+                PostalCode = 1000
+            };
+            var test2 = new RestaurantsObj
+            {
+                Name = "Tonton garby",
+                Adress = "6 rue duquesnoy",
+                IdCuisine = -1,
+                Phone = "0484290216",
+                PostalCode = 1000
+            };
+            db.Restaurants.Add(test);
+            db.Restaurants.Add(test2);
+            db.SaveChanges();
+            return null;
+        }
+
+        [Route("api/deldb")]
+        public HttpResponseMessage delDbTest()
+        {
+            var tab = db.Restaurants.ToList();
+            foreach (var item in tab)
+            {
+                db.Restaurants.Remove(item);
+            }
+            db.SaveChanges();
+            return null;
+        }
+
         // GET: getallrestaurants
         [Route("api/restaurants/getrestaurants")]
-        public IQueryable<RestaurantsObj> GetRestaurants()
+        public List<RestaurantsObj> GetRestaurants()
         {
             List<RestaurantsObj> restoList = new List<RestaurantsObj> ()
             {
@@ -103,14 +140,15 @@ namespace FeedMe.Controllers
                     PostalCode = 1000
                 }
             };
-            return restoList.AsQueryable();
+            return restoList;
         }
 
         // GET: api/Restaurants/5
         [ResponseType(typeof(RestaurantsObj))]
-        public IHttpActionResult GetRestaurantsObj(int id)
+        [Route("api/restaurants/getrestaurantsbyname/{name}")]
+        public IHttpActionResult GetRestaurantsByName(string name)
         {
-            RestaurantsObj restaurantsObj = db.Restaurants.Find(id);
+            RestaurantsObj restaurantsObj = db.Restaurants.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault<RestaurantsObj>();
             if (restaurantsObj == null)
             {
                 return NotFound();
