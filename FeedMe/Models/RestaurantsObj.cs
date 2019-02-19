@@ -27,7 +27,15 @@ namespace FeedMe.Models
         [Required]
         public int IdCuisine { get; set; }
 
+        [Required]
+        public string urlThumbnail { get; set; }
 
+
+        [Required]
+        public string City { get; set; }
+
+
+        public double Rating { get; set; }
 
 
 

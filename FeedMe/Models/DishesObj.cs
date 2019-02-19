@@ -20,5 +20,8 @@ namespace FeedMe.Models
 
         [Required]
         public int IdMenu { get; set; }
+
+        [MaxLength(1)]
+        public string Pde { get; set; }
     }
 }
