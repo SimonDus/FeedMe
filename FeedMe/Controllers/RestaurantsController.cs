@@ -18,162 +18,31 @@ namespace FeedMe.Controllers
     {
         private FeedMeContext db = new FeedMeContext();
 
-        [Route("api/remplirdb")]
-        public HttpResponseMessage remplirDbTest()
-        {
-            var test = new RestaurantsObj
-            {
-                Name = "Le rabassier",
-                Adress = "23 rue de rollebeek",
-                IdCuisine = -1,
-                Phone = "0497756905",
-                PostalCode = 1000
-            };
-            var test2 = new RestaurantsObj
-            {
-                Name = "Tonton garby",
-                Adress = "6 rue duquesnoy",
-                IdCuisine = -1,
-                Phone = "0484290216",
-                PostalCode = 1000
-            };
-            db.Restaurants.Add(test);
-            db.Restaurants.Add(test2);
-            db.SaveChanges();
-            return null;
-        }
-
-        [Route("api/deldb")]
-        public HttpResponseMessage delDbTest()
-        {
-            var tab = db.Restaurants.ToList();
-            foreach (var item in tab)
-            {
-                db.Restaurants.Remove(item);
-            }
-            db.SaveChanges();
-            return null;
-        }
-
         // GET: get all restaurants
         [Route("api/restaurants/getrestaurants")]
-        public List<RestaurantsObj> GetRestaurants()
+        public List<RestaurantsObj> GetRestaurants(string name = "", string cuisineType = "")
         {
-            List<RestaurantsObj> restoList = new List<RestaurantsObj> ()
+            if(!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(cuisineType))
             {
-                new RestaurantsObj
-                {
-                    Name = "Le rabassier",
-                    Adress = "23 rue de rollebeek",
-                    IdCuisine = -1,
-                    Phone = "0497756905",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Tonton Garby",
-                    Adress = "6 rue duquesnoy",
-                    IdCuisine = -1,
-                    Phone = "0484290216",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "The lobster house",
-                    Adress = "39 rue des bouchers",
-                    IdCuisine = -1,
-                    Phone = "025022016",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Pasta divana",
-                    Adress = "16 rue de la montagne",
-                    IdCuisine = -1,
-                    Phone = "025112155",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Vinomania",
-                    Adress = "22 place fernand cocq",
-                    IdCuisine = -1,
-                    Phone = "0484223457",
-                    PostalCode = 1050
-                },
-                new RestaurantsObj
-                {
-                    Name = "L'atelier de willy",
-                    Adress = "118 boulevard emile jacqmain",
-                    IdCuisine = -1,
-                    Phone = "0471650827",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Le bistro",
-                    Adress = "138 boulevard de waterloo",
-                    IdCuisine = -1,
-                    Phone = "025394454",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Au cor de chasse",
-                    Adress = "21 avenue des casernes",
-                    IdCuisine = -1,
-                    Phone = "023085725",
-                    PostalCode = 1040
-                },
-                new RestaurantsObj
-                {
-                    Name = "Le wine bar des marolles",
-                    Adress = "198 rue haute",
-                    IdCuisine = -1,
-                    Phone = "0496820105",
-                    PostalCode = 1000
-                },
-                new RestaurantsObj
-                {
-                    Name = "Mozart more than just ribs",
-                    Adress = "18 petite rue des bouchers",
-                    IdCuisine = -1,
-                    Phone = "0493",
-                    PostalCode = 1000
-                }
-            };
-            return restoList;
-        }
-
-        // GET: get restaurants by name
-        [ResponseType(typeof(RestaurantsObj))]
-        [Route("api/restaurants/getrestaurantsbyname/{name}")]
-        public IHttpActionResult GetRestaurantsByName(string name)
-        {
-            RestaurantsObj restaurantsObj = db.Restaurants.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault<RestaurantsObj>();
-            if (restaurantsObj == null)
-            {
-                return NotFound();
+                List<RestaurantsObj> restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
+                return (restaurantsObj);
             }
-
-            return Ok(restaurantsObj);
+            if (string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(cuisineType))
+            {
+                int idCuisineType = db.CuisineTypes.Where(x => x.Name == cuisineType).FirstOrDefault().IdCuisine;
+                List<RestaurantsObj> restaurantsObjCuisine = db.Restaurants.Where(x => x.IdCuisine == idCuisineType).ToList();
+                return restaurantsObjCuisine;
+            }
+            else if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(cuisineType))
+            {
+                List<RestaurantsObj> restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
+                return (restaurantsObj);
+            }
+            else
+            {
+                return db.Restaurants.ToList();
+            }
         }
-
-        // GET: get restaurants by cuisine type
-        //[ResponseType(typeof(RestaurantsObj))]
-        //[Route("api/restaurants/getrestaurantsbyname/{name}")]
-        //public IHttpActionResult GetRestaurantsByName(string name)
-        //{
-        //    RestaurantsObj restaurantsObj = db.Restaurants.Where(x => x.Name.ToLower() == name.ToLower()).FirstOrDefault<RestaurantsObj>();
-        //    if (restaurantsObj == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(restaurantsObj);
-        //}
-
-
 
         // PUT: api/Restaurants/5
         [ResponseType(typeof(void))]
