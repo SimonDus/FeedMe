@@ -6,31 +6,22 @@ using System.Web;
 
 namespace FeedMe.Models
 {
-    public class RestaurantsObj
+    public class RestaurantsView
     {
-        [Required]
-        [Key]
         public int IdRestaurant { get; set; }
 
-        [Required]
         public string Name { get; set; }
 
-        [Required]
         public string Adress { get; set; }
 
-        [Required]
         public int PostalCode { get; set; }
 
-        [Required]
         public string Phone { get; set; }
 
-        [Required]
-        public int IdCuisine { get; set; }
+        public string CuisineType { get; set; }
 
-        [Required]
         public string urlThumbnail { get; set; }
 
-        [Required]
         public string City { get; set; }
 
         public double Rating { get; set; }

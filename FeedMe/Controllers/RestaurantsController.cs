@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Http.Description;
+using FeedMe.Common;
 using FeedMe.Models;
 
 namespace FeedMe.Controllers
@@ -20,28 +21,38 @@ namespace FeedMe.Controllers
 
         // GET: get all restaurants
         [Route("api/restaurants/getrestaurants")]
-        public List<RestaurantsObj> GetRestaurants(string name = "", string cuisineType = "")
+        public List<RestaurantsView> GetRestaurants(string name = "", string cuisineType = "")
         {
-            if(!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(cuisineType))
+            List<RestaurantsObj> restaurantsObj = null;
+            List<RestaurantsView> restaurantsView = null;
+
+            if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(cuisineType))
             {
-                List<RestaurantsObj> restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
-                return (restaurantsObj);
+                restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
             }
             if (string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(cuisineType))
             {
                 int idCuisineType = db.CuisineTypes.Where(x => x.Name == cuisineType).FirstOrDefault().IdCuisine;
-                List<RestaurantsObj> restaurantsObjCuisine = db.Restaurants.Where(x => x.IdCuisine == idCuisineType).ToList();
-                return restaurantsObjCuisine;
+                restaurantsObj = db.Restaurants.Where(x => x.IdCuisine == idCuisineType).ToList();
             }
             else if (!string.IsNullOrEmpty(name) && string.IsNullOrEmpty(cuisineType))
             {
-                List<RestaurantsObj> restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
-                return (restaurantsObj);
+                restaurantsObj = db.Restaurants.Where(x => x.Name.Contains(name)).ToList();
             }
             else
             {
-                return db.Restaurants.ToList();
+                restaurantsObj = db.Restaurants.ToList();
             }
+
+            if (restaurantsObj != null)
+            {
+                foreach (var item in restaurantsObj)
+                {
+                    restaurantsView = new List<RestaurantsView>();
+                    restaurantsView.Add(TransformObject.TransformRestoObjIntoRestoView(item, db));
+                }
+            }
+            return restaurantsView;
         }
 
         //// PUT: api/Restaurants/5
