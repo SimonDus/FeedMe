@@ -44,84 +44,84 @@ namespace FeedMe.Controllers
             }
         }
 
-        // PUT: api/Restaurants/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutRestaurantsObj(int id, RestaurantsObj restaurantsObj)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// PUT: api/Restaurants/5
+        //[ResponseType(typeof(void))]
+        //public IHttpActionResult PutRestaurantsObj(int id, RestaurantsObj restaurantsObj)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (id != restaurantsObj.IdRestaurant)
-            {
-                return BadRequest();
-            }
+        //    if (id != restaurantsObj.IdRestaurant)
+        //    {
+        //        return BadRequest();
+        //    }
 
-            db.Entry(restaurantsObj).State = EntityState.Modified;
+        //    db.Entry(restaurantsObj).State = EntityState.Modified;
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!RestaurantsObjExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+        //    try
+        //    {
+        //        db.SaveChanges();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!RestaurantsObjExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+        //    return StatusCode(HttpStatusCode.NoContent);
+        //}
 
-        // POST: api/Restaurants
-        [ResponseType(typeof(RestaurantsObj))]
-        public IHttpActionResult PostRestaurantsObj(RestaurantsObj restaurantsObj)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //// POST: api/Restaurants
+        //[ResponseType(typeof(RestaurantsObj))]
+        //public IHttpActionResult PostRestaurantsObj(RestaurantsObj restaurantsObj)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            db.Restaurants.Add(restaurantsObj);
-            db.SaveChanges();
+        //    db.Restaurants.Add(restaurantsObj);
+        //    db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = restaurantsObj.IdRestaurant }, restaurantsObj);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = restaurantsObj.IdRestaurant }, restaurantsObj);
+        //}
 
-        // DELETE: api/Restaurants/5
-        [ResponseType(typeof(RestaurantsObj))]
-        public IHttpActionResult DeleteRestaurantsObj(int id)
-        {
-            RestaurantsObj restaurantsObj = db.Restaurants.Find(id);
-            if (restaurantsObj == null)
-            {
-                return NotFound();
-            }
+        //// DELETE: api/Restaurants/5
+        //[ResponseType(typeof(RestaurantsObj))]
+        //public IHttpActionResult DeleteRestaurantsObj(int id)
+        //{
+        //    RestaurantsObj restaurantsObj = db.Restaurants.Find(id);
+        //    if (restaurantsObj == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            db.Restaurants.Remove(restaurantsObj);
-            db.SaveChanges();
+        //    db.Restaurants.Remove(restaurantsObj);
+        //    db.SaveChanges();
 
-            return Ok(restaurantsObj);
-        }
+        //    return Ok(restaurantsObj);
+        //}
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
 
-        private bool RestaurantsObjExists(int id)
-        {
-            return db.Restaurants.Count(e => e.IdRestaurant == id) > 0;
-        }
+        //private bool RestaurantsObjExists(int id)
+        //{
+        //    return db.Restaurants.Count(e => e.IdRestaurant == id) > 0;
+        //}
     }
 }
