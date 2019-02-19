@@ -15,8 +15,6 @@ namespace FeedMe.Models
 
         public DbSet<ImagesObj> Images { get; set; }
 
-        public DbSet<MenusObj> Menus { get; set; }
-
         public DbSet<RestaurantsObj> Restaurants { get; set; }
 
     }

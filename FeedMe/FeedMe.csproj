@@ -203,12 +203,23 @@
     <Compile Include="Migrations\201902191545196_v6.Designer.cs">
       <DependentUpon>201902191545196_v6.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201902192058542_v7.cs" />
+    <Compile Include="Migrations\201902192058542_v7.Designer.cs">
+      <DependentUpon>201902192058542_v7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902192204539_v8.cs" />
+    <Compile Include="Migrations\201902192204539_v8.Designer.cs">
+      <DependentUpon>201902192204539_v8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902192207148_v9.cs" />
+    <Compile Include="Migrations\201902192207148_v9.Designer.cs">
+      <DependentUpon>201902192207148_v9.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CuisineTypeObj.cs" />
     <Compile Include="Models\DishesObj.cs" />
     <Compile Include="Models\FeedMeContext.cs" />
     <Compile Include="Models\ImagesObj.cs" />
-    <Compile Include="Models\MenusObj.cs" />
     <Compile Include="Models\RestaurantsObj.cs" />
     <Compile Include="Models\RestaurantsView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -317,6 +328,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902191545196_v6.resx">
       <DependentUpon>201902191545196_v6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902192058542_v7.resx">
+      <DependentUpon>201902192058542_v7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902192204539_v8.resx">
+      <DependentUpon>201902192204539_v8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902192207148_v9.resx">
+      <DependentUpon>201902192207148_v9.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

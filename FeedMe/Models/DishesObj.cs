@@ -16,10 +16,10 @@ namespace FeedMe.Models
         public string Name { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
-        public int IdMenu { get; set; }
+        public int IdRestaurant { get; set; }
 
         [MaxLength(1)]
         public string Pde { get; set; }
