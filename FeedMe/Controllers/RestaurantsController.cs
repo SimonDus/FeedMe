@@ -62,7 +62,7 @@ namespace FeedMe.Controllers
 
         [Route("api/restaurants/postrestaurant")]
         [ResponseType(typeof(RestaurantsCreate))]
-        public IHttpActionResult PostRestaurants(RestaurantsCreate restaurantsC)
+        public IHttpActionResult PostRestaurant(RestaurantsCreate restaurantsC)
         {
             if (!ModelState.IsValid)
             {
@@ -96,6 +96,32 @@ namespace FeedMe.Controllers
             return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(newResto,db));
         }
 
+        [HttpGet]
+        [Route("api/restaurants/deleterestaurant")]
+        [ResponseType(typeof(RestaurantsObj))]
+        public IHttpActionResult DeleteRestaurant(int id)
+        {
+            RestaurantsObj restaurantsObj = db.Restaurants.Find(id);
+            if (restaurantsObj == null)
+            {
+                return NotFound();
+            }
+            db.Restaurants.Remove(restaurantsObj);
+
+            List<ImagesObj> imagesDel = db.Images.Where(x => x.IdRestaurant == id).ToList();
+            foreach (var item in imagesDel)
+            {
+                db.Images.Remove(item);
+            }
+
+            List<DishesObj> dishesDel = db.Dishes.Where(x => x.IdRestaurant == id).ToList();
+            foreach (var item in dishesDel)
+            {
+                db.Dishes.Remove(item);
+            }
+            db.SaveChanges();
+            return Ok(restaurantsObj);
+        }
 
 
 
@@ -133,22 +159,6 @@ namespace FeedMe.Controllers
         //    }
 
         //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
-        //// DELETE: api/Restaurants/5
-        //[ResponseType(typeof(RestaurantsObj))]
-        //public IHttpActionResult DeleteRestaurantsObj(int id)
-        //{
-        //    RestaurantsObj restaurantsObj = db.Restaurants.Find(id);
-        //    if (restaurantsObj == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Restaurants.Remove(restaurantsObj);
-        //    db.SaveChanges();
-
-        //    return Ok(restaurantsObj);
         //}
 
     }
