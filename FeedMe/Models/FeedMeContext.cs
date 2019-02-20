@@ -17,5 +17,7 @@ namespace FeedMe.Models
 
         public DbSet<RestaurantsObj> Restaurants { get; set; }
 
+        public DbSet<UserObj> Users { get; set; }
+
     }
 }

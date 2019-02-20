@@ -54,43 +54,50 @@ namespace FeedMe.Controllers
             return restaurantsView;
         }
 
-        [Route("api/restaurants/getmenu")]
-        public List<DishesObj> GetMenu(int idRestaurant = 0)
+        //[Route("api/restaurants/getmenu")]
+        //public List<DishesObj> GetMenu(int idRestaurant = 0)
+        //{
+        //    List<DishesObj> menu = new List<DishesObj>();
+        //    if(db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
+        //    {
+        //        menu = db.Dishes.Where(x => x.IdRestaurant == idRestaurant).ToList();
+        //    }
+        //    return menu;
+        //}
+
+        //[Route("api/restaurants/getimages")]
+        //public List<ImagesObj> GetImages(int idRestaurant = 0)
+        //{
+        //    List<ImagesObj> images = new List<ImagesObj>();
+        //    if (db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
+        //    {
+        //        images = db.Images.Where(x => x.IdRestaurant == idRestaurant).ToList();
+        //    }
+        //    return images;
+        //}
+
+        [Route("api/restaurants/getrestaurantsdetails")]
+        public RestaurantsViewDetails GetRestaurantDetails(int id)
         {
-            List<DishesObj> menu = new List<DishesObj>();
-            if(db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
-            {
-                menu = db.Dishes.Where(x => x.IdRestaurant == idRestaurant).ToList();
-            }
-            return menu;
+            RestaurantsObj resto = db.Restaurants.Where(x => x.IdRestaurant == id).First();
+            return TransformObject.TransformRestoObjIntoRestoViewDetails(resto,db);
         }
 
-        [Route("api/restaurants/getimages")]
-        public List<ImagesObj> GetImages(int idRestaurant = 0)
-        {
-            List<ImagesObj> images = new List<ImagesObj>();
-            if (db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
-            {
-                images = db.Images.Where(x => x.IdRestaurant == idRestaurant).ToList();
-            }
-            return images;
-        }
 
+        //// POST: api/Restaurants
+        //[ResponseType(typeof(RestaurantsObj))]
+        //public IHttpActionResult PostRestaurantsObj(RestaurantsObj restaurantsObj)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-        // POST: api/Restaurants
-        [ResponseType(typeof(RestaurantsObj))]
-        public IHttpActionResult PostRestaurantsObj(RestaurantsObj restaurantsObj)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    db.Restaurants.Add(restaurantsObj);
+        //    db.SaveChanges();
 
-            db.Restaurants.Add(restaurantsObj);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = restaurantsObj.IdRestaurant }, restaurantsObj);
-        }
+        //    return CreatedAtRoute("DefaultApi", new { id = restaurantsObj.IdRestaurant }, restaurantsObj);
+        //}
 
 
 

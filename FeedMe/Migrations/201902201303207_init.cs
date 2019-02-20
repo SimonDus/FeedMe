@@ -3,7 +3,7 @@ namespace FeedMe.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class initial : DbMigration
+    public partial class init : DbMigration
     {
         public override void Up()
         {
@@ -22,8 +22,9 @@ namespace FeedMe.Migrations
                     {
                         IdDishes = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false),
-                        Price = c.Int(nullable: false),
-                        IdMenu = c.Int(nullable: false),
+                        Price = c.Double(nullable: false),
+                        IdRestaurant = c.Int(nullable: false),
+                        Pde = c.String(maxLength: 1),
                     })
                 .PrimaryKey(t => t.IdDishes);
             
@@ -38,15 +39,6 @@ namespace FeedMe.Migrations
                 .PrimaryKey(t => t.IdImage);
             
             CreateTable(
-                "dbo.MenusObjs",
-                c => new
-                    {
-                        IdMenu = c.Int(nullable: false, identity: true),
-                        IdRestaurant = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.IdMenu);
-            
-            CreateTable(
                 "dbo.RestaurantsObjs",
                 c => new
                     {
@@ -56,15 +48,32 @@ namespace FeedMe.Migrations
                         PostalCode = c.Int(nullable: false),
                         Phone = c.String(nullable: false),
                         IdCuisine = c.Int(nullable: false),
+                        urlThumbnail = c.String(nullable: false),
+                        City = c.String(nullable: false),
+                        Rating = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.IdRestaurant);
+            
+            CreateTable(
+                "dbo.UserObjs",
+                c => new
+                    {
+                        UserId = c.Int(nullable: false, identity: true),
+                        Role = c.Int(nullable: false),
+                        Name = c.String(nullable: false),
+                        Firstname = c.String(nullable: false),
+                        MailAdress = c.String(nullable: false),
+                        Birthdate = c.String(),
+                        Gender = c.String(maxLength: 1),
+                    })
+                .PrimaryKey(t => t.UserId);
             
         }
         
         public override void Down()
         {
+            DropTable("dbo.UserObjs");
             DropTable("dbo.RestaurantsObjs");
-            DropTable("dbo.MenusObjs");
             DropTable("dbo.ImagesObjs");
             DropTable("dbo.DishesObjs");
             DropTable("dbo.CuisineTypeObjs");
