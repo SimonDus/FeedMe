@@ -188,6 +188,7 @@
     <Compile Include="Models\DishesObj.cs" />
     <Compile Include="Models\FeedMeContext.cs" />
     <Compile Include="Models\ImagesObj.cs" />
+    <Compile Include="Models\RestaurantsCreate.cs" />
     <Compile Include="Models\RestaurantsObj.cs" />
     <Compile Include="Models\RestaurantsView.cs" />
     <Compile Include="Models\RestaurantsViewDetails.cs" />

@@ -19,7 +19,6 @@ namespace FeedMe.Controllers
     {
         private FeedMeContext db = new FeedMeContext();
 
-        // GET: get all restaurants
         [Route("api/restaurants/getrestaurants")]
         public List<RestaurantsView> GetRestaurants(string name = "", string cuisineType = "")
         {
@@ -54,28 +53,6 @@ namespace FeedMe.Controllers
             return restaurantsView;
         }
 
-        //[Route("api/restaurants/getmenu")]
-        //public List<DishesObj> GetMenu(int idRestaurant = 0)
-        //{
-        //    List<DishesObj> menu = new List<DishesObj>();
-        //    if(db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
-        //    {
-        //        menu = db.Dishes.Where(x => x.IdRestaurant == idRestaurant).ToList();
-        //    }
-        //    return menu;
-        //}
-
-        //[Route("api/restaurants/getimages")]
-        //public List<ImagesObj> GetImages(int idRestaurant = 0)
-        //{
-        //    List<ImagesObj> images = new List<ImagesObj>();
-        //    if (db.Restaurants.Select(x => x.IdRestaurant).ToList().Contains(idRestaurant))
-        //    {
-        //        images = db.Images.Where(x => x.IdRestaurant == idRestaurant).ToList();
-        //    }
-        //    return images;
-        //}
-
         [Route("api/restaurants/getrestaurantsdetails")]
         public RestaurantsViewDetails GetRestaurantDetails(int id)
         {
@@ -83,21 +60,41 @@ namespace FeedMe.Controllers
             return TransformObject.TransformRestoObjIntoRestoViewDetails(resto,db);
         }
 
+        [Route("api/restaurants/postrestaurant")]
+        [ResponseType(typeof(RestaurantsCreate))]
+        public IHttpActionResult PostRestaurants(RestaurantsCreate restaurantsC)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int nb = 0;
+            nb = db.CuisineTypes.Where(x => x.Name == restaurantsC.CuisineType).Count();
+            if ( nb == 0)
+            {
+                CuisineTypeObj newCui = new CuisineTypeObj
+                {
+                    Name = restaurantsC.Name
+                };
+                db.CuisineTypes.Add(newCui);
+            }
+            int idCuisineType = db.CuisineTypes.Where(x => x.Name == restaurantsC.CuisineType).First().IdCuisine;
+            RestaurantsObj newResto = new RestaurantsObj
+            {
+                Adress = restaurantsC.Adress,
+                City = restaurantsC.City,
+                IdCuisine = idCuisineType,
+                Name = restaurantsC.Name,
+                Phone = restaurantsC.Phone,
+                PostalCode = restaurantsC.PostalCode,
+                Rating = 10,
+                urlThumbnail = restaurantsC.urlThumbnail
+            };
+            db.Restaurants.Add(newResto);
+            db.SaveChanges();
 
-        //// POST: api/Restaurants
-        //[ResponseType(typeof(RestaurantsObj))]
-        //public IHttpActionResult PostRestaurantsObj(RestaurantsObj restaurantsObj)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    db.Restaurants.Add(restaurantsObj);
-        //    db.SaveChanges();
-
-        //    return CreatedAtRoute("DefaultApi", new { id = restaurantsObj.IdRestaurant }, restaurantsObj);
-        //}
+            return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(newResto,db));
+        }
 
 
 
