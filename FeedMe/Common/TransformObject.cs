@@ -49,5 +49,41 @@ namespace FeedMe.Common
             return restoD;
         }
 
+        public static RestaurantsModify TransformRestoObjIntoRestoModify(RestaurantsObj resto, FeedMeContext context)
+        {
+            string cuisineTypeName = context.CuisineTypes.Where(x => x.IdCuisine == resto.IdCuisine).First().Name;
+            RestaurantsModify restoMod = new RestaurantsModify
+            {
+                Adress = resto.Adress,
+                City = resto.City,
+                CuisineType = cuisineTypeName,
+                IdRestaurant = resto.IdRestaurant,
+                Name = resto.Name,
+                Phone = resto.Phone,
+                PostalCode = resto.PostalCode,
+                urlThumbnail = resto.urlThumbnail
+            };
+            return restoMod;
+        }
+
+        public static RestaurantsObj TransformRestoModifyIntoRestoObj(RestaurantsModify restoMod, FeedMeContext context)
+        {
+            int cuisineTypeId = context.CuisineTypes.Where(x => x.Name == restoMod.CuisineType).First().IdCuisine;
+            RestaurantsObj restoOld = context.Restaurants.Where(x => x.IdRestaurant == restoMod.IdRestaurant).First();
+            RestaurantsObj resto = new RestaurantsObj
+            {
+                Adress = restoMod.Adress,
+                City = restoMod.City,
+                IdCuisine = cuisineTypeId,
+                IdRestaurant = restoMod.IdRestaurant,
+                Name = restoMod.Name,
+                Phone = restoMod.Phone,
+                PostalCode = restoMod.PostalCode,
+                Rating = restoOld.Rating,
+                urlThumbnail = restoMod.urlThumbnail
+            };
+            return resto;
+        }
+
     }
 }

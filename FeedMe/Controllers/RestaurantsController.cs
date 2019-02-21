@@ -61,7 +61,7 @@ namespace FeedMe.Controllers
         }
 
         [Route("api/restaurants/postrestaurant")]
-        [ResponseType(typeof(RestaurantsCreate))]
+        [ResponseType(typeof(RestaurantsViewDetails))]
         public IHttpActionResult PostRestaurant(RestaurantsCreate restaurantsC)
         {
             if (!ModelState.IsValid)
@@ -123,42 +123,54 @@ namespace FeedMe.Controllers
             return Ok(restaurantsObj);
         }
 
+        [Route("api/restaurants/getrestaurantsmodify")]
+        [ResponseType(typeof(RestaurantsModify))]
+        public IHttpActionResult GetRestaurantsModify(int? id = -1)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            if(id == -1 || !db.Restaurants.Any(x => x.IdRestaurant == id))
+            {
+                return NotFound();
+            }
+            RestaurantsObj resto = db.Restaurants.Where(x => x.IdRestaurant == id).First();
+            if (resto.Equals(null))
+            {
+                return NotFound();
+            }
+            RestaurantsModify restoMod = TransformObject.TransformRestoObjIntoRestoModify(resto,db);
+            return Ok(restoMod);
+        }
 
-
-
-        //// PUT: api/Restaurants/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutRestaurantsObj(int id, RestaurantsObj restaurantsObj)
+        //[Route("api/restaurants/putrestaurant")]
+        //[ResponseType(typeof(RestaurantsViewDetails))]
+        //public IHttpActionResult PutRestaurant(RestaurantsModify restaurantsMod)
         //{
         //    if (!ModelState.IsValid)
         //    {
         //        return BadRequest(ModelState);
         //    }
-
-        //    if (id != restaurantsObj.IdRestaurant)
+        //    if(!db.Restaurants.Any(x => x.IdRestaurant == restaurantsMod.IdRestaurant))
         //    {
         //        return BadRequest();
         //    }
+        //    RestaurantsObj oldResto = TransformObject.TransformRestoModifyIntoRestoObj(restaurantsMod,db);
+        //    RestaurantsObj restoM = db.Restaurants.Single();
 
-        //    db.Entry(restaurantsObj).State = EntityState.Modified;
 
-        //    try
+
+        //        return StatusCode(HttpStatusCode.NoContent);
+        //    using (var db = new MyContextDB())
         //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!RestaurantsObjExists(id))
+        //        var result = db.Books.SingleOrDefault(b => b.BookNumber == bookNumber);
+        //        if (result != null)
         //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
+        //            result.SomeValue = "Some new value";
+        //            db.SaveChanges();
         //        }
         //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
         //}
 
     }

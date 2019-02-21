@@ -24,7 +24,6 @@ namespace FeedMe.Models
         [Required]
         public string MailAdress { get; set; }
 
-
         public string Birthdate { get; set; }
 
         [MaxLength(1)]
