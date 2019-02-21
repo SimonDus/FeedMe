@@ -10,9 +10,9 @@ namespace FeedMe.Models
     {
         [Key]
         [Required]
-        public int RatinId { get; set; }
+        public int RatingId { get; set; }
         [Required]
-        public int RestaurantI { get; set; }
+        public int RestaurantId { get; set; }
         [Required]
         public int UserId { get; set; }
         [Required]

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -50,7 +51,8 @@ namespace FeedMe.Controllers
                     restaurantsView.Add(TransformObject.TransformRestoObjIntoRestoView(item, db));
                 }
             }
-            return restaurantsView;
+            return restaurantsView.OrderByDescending(x => x.Rating).ToList();
+ 
         }
 
         [Route("api/restaurants/getrestaurantsdetails")]
@@ -169,6 +171,8 @@ namespace FeedMe.Controllers
             RestaurantsObj finalResto = db.Restaurants.Where(x => x.IdRestaurant == restaurantsMod.IdRestaurant).First();
             return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(finalResto,db));
         }
+
+
 
     }
 }

@@ -173,9 +173,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Common\Tools.cs" />
     <Compile Include="Common\TransformObject.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RestaurantsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -186,6 +188,18 @@
     <Compile Include="Migrations\201902211102279_v2.cs" />
     <Compile Include="Migrations\201902211102279_v2.Designer.cs">
       <DependentUpon>201902211102279_v2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902211322384_v3.cs" />
+    <Compile Include="Migrations\201902211322384_v3.Designer.cs">
+      <DependentUpon>201902211322384_v3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902211323393_v4.cs" />
+    <Compile Include="Migrations\201902211323393_v4.Designer.cs">
+      <DependentUpon>201902211323393_v4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902211324259_v5.cs" />
+    <Compile Include="Migrations\201902211324259_v5.Designer.cs">
+      <DependentUpon>201902211324259_v5.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CuisineTypeObj.cs" />
@@ -295,6 +309,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902211102279_v2.resx">
       <DependentUpon>201902211102279_v2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902211322384_v3.resx">
+      <DependentUpon>201902211322384_v3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902211323393_v4.resx">
+      <DependentUpon>201902211323393_v4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902211324259_v5.resx">
+      <DependentUpon>201902211324259_v5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
