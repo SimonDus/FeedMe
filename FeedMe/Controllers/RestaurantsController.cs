@@ -144,34 +144,31 @@ namespace FeedMe.Controllers
             return Ok(restoMod);
         }
 
-        //[Route("api/restaurants/putrestaurant")]
-        //[ResponseType(typeof(RestaurantsViewDetails))]
-        //public IHttpActionResult PutRestaurant(RestaurantsModify restaurantsMod)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-        //    if(!db.Restaurants.Any(x => x.IdRestaurant == restaurantsMod.IdRestaurant))
-        //    {
-        //        return BadRequest();
-        //    }
-        //    RestaurantsObj oldResto = TransformObject.TransformRestoModifyIntoRestoObj(restaurantsMod,db);
-        //    RestaurantsObj restoM = db.Restaurants.Single();
-
-
-
-        //        return StatusCode(HttpStatusCode.NoContent);
-        //    using (var db = new MyContextDB())
-        //    {
-        //        var result = db.Books.SingleOrDefault(b => b.BookNumber == bookNumber);
-        //        if (result != null)
-        //        {
-        //            result.SomeValue = "Some new value";
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //}
+        [Route("api/restaurants/putrestaurant")]
+        [ResponseType(typeof(RestaurantsViewDetails))]
+        public IHttpActionResult PutRestaurant(RestaurantsModify restaurantsMod)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (!db.Restaurants.Any(x => x.IdRestaurant == restaurantsMod.IdRestaurant))
+            {
+                return BadRequest();
+            }
+            int cuisineTypeId = db.CuisineTypes.Where(x => x.Name == restaurantsMod.CuisineType).First().IdCuisine;
+            RestaurantsObj restoModify = db.Restaurants.Where(x => x.IdRestaurant == restaurantsMod.IdRestaurant).First();
+            restoModify.Name = restaurantsMod.Name;
+            restoModify.Adress = restaurantsMod.Adress;
+            restoModify.PostalCode = restaurantsMod.PostalCode;
+            restoModify.Phone = restaurantsMod.Phone;
+            restoModify.IdCuisine = cuisineTypeId;
+            restoModify.urlThumbnail = restaurantsMod.urlThumbnail;
+            restoModify.City = restaurantsMod.City;
+            db.SaveChanges();
+            RestaurantsObj finalResto = db.Restaurants.Where(x => x.IdRestaurant == restaurantsMod.IdRestaurant).First();
+            return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(finalResto,db));
+        }
 
     }
 }

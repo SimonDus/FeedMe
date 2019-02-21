@@ -29,5 +29,10 @@ namespace FeedMe.Models
         [MaxLength(1)]
         public string Gender { get; set; }
 
+        [Required]
+        [MinLength(5)]
+        [MaxLength(12)]
+        public string Password { get; set; }
+
     }
 }

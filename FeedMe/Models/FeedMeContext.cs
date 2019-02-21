@@ -19,5 +19,11 @@ namespace FeedMe.Models
 
         public DbSet<UserObj> Users { get; set; }
 
+        public DbSet<FavoritesObj> Favorites { get; set; }
+
+        public DbSet<RatingsObj> Ratings { get; set; }
+
+        public DbSet<ReviewsObj> Reviews { get; set; }
+
     }
 }
