@@ -17,5 +17,7 @@ namespace FeedMe.Models
         public string Description { get; set; }
         [Required]
         public int UserId { get; set; }
+        [Required]
+        public int RestaurantID { get; set; }
     }
 }

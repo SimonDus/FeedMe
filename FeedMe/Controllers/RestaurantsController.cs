@@ -64,6 +64,7 @@ namespace FeedMe.Controllers
 
         [Route("api/restaurants/postrestaurant")]
         [ResponseType(typeof(RestaurantsViewDetails))]
+        [EnableCors(origins: "*", headers: "*", methods: "POST")]
         public IHttpActionResult PostRestaurant(RestaurantsCreate restaurantsC)
         {
             if (!ModelState.IsValid)
@@ -76,9 +77,10 @@ namespace FeedMe.Controllers
             {
                 CuisineTypeObj newCui = new CuisineTypeObj
                 {
-                    Name = restaurantsC.Name
+                    Name = restaurantsC.CuisineType
                 };
                 db.CuisineTypes.Add(newCui);
+                db.SaveChanges();
             }
             int idCuisineType = db.CuisineTypes.Where(x => x.Name == restaurantsC.CuisineType).First().IdCuisine;
             RestaurantsObj newResto = new RestaurantsObj
@@ -94,11 +96,24 @@ namespace FeedMe.Controllers
             };
             db.Restaurants.Add(newResto);
             db.SaveChanges();
+            int idresto = db.Restaurants.Where(x => x.Name == restaurantsC.Name).First().IdRestaurant;
+            foreach (var item in restaurantsC.Plats)
+            {
+                DishesObj dishe = new DishesObj
+                {
+                    Name = item.Name,
+                    Price = item.Price,
+                    Pde = "a",
+                    IdRestaurant = idresto
+                };
 
+                db.Dishes.Add(dishe);
+                db.SaveChanges();
+            }    
             return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(newResto,db));
         }
 
-        [HttpGet]
+        [EnableCors(origins: "*", headers: "*", methods: "DELETE")]
         [Route("api/restaurants/deleterestaurant")]
         [ResponseType(typeof(RestaurantsObj))]
         public IHttpActionResult DeleteRestaurant(int id)
@@ -171,8 +186,6 @@ namespace FeedMe.Controllers
             RestaurantsObj finalResto = db.Restaurants.Where(x => x.IdRestaurant == restaurantsMod.IdRestaurant).First();
             return Ok(TransformObject.TransformRestoObjIntoRestoViewDetails(finalResto,db));
         }
-
-
 
     }
 }

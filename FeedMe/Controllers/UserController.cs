@@ -17,6 +17,7 @@ namespace FeedMe.Controllers
     {
         private FeedMeContext db = new FeedMeContext();
 
+        [Route("addrating")]
         public IHttpActionResult AddRating(int note, int idResto, int userId)
         {
             if(note<0 && note > 10)
